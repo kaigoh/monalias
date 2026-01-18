@@ -1,0 +1,29 @@
+CREATE TABLE IF NOT EXISTS instance_config (
+  id INTEGER PRIMARY KEY CHECK (id = 1),
+  domain TEXT NOT NULL,
+  homeserver TEXT NOT NULL,
+  signing_key_id TEXT NOT NULL,
+  signing_pubkey TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'OK',
+  status_reason TEXT,
+  last_identity_check_at DATETIME
+);
+
+CREATE TABLE IF NOT EXISTS accounts (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  handle TEXT NOT NULL UNIQUE,
+  wallet_name TEXT,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS aliases (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  account_id INTEGER NOT NULL REFERENCES accounts(id) ON DELETE CASCADE,
+  full_acct TEXT NOT NULL UNIQUE,
+  alias_label TEXT NOT NULL,
+  mode TEXT NOT NULL,
+  static_address TEXT,
+  next_subaddr_idx INTEGER,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

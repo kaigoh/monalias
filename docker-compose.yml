@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  wallet-rpc:
+    image: monero-project/monero:latest
+    command: >
+      monero-wallet-rpc
+      --rpc-bind-ip=0.0.0.0
+      --rpc-bind-port=18083
+      --wallet-dir=/wallets
+      --disable-rpc-login
+      --trusted-daemon
+    volumes:
+      - wallets:/wallets
+    restart: unless-stopped
+
+  monalias:
+    build: .
+    env_file:
+      - .env
+    environment:
+      MONALIAS_WALLET_RPC_URL: "http://wallet-rpc:18083/json_rpc"
+      MONALIAS_SIGNING_KEY_FILE: "/run/secrets/monalias_signing_key"
+    secrets:
+      - monalias_signing_key
+    volumes:
+      - monalias_data:/data
+    ports:
+      - "80:80"
+    restart: unless-stopped
+
+secrets:
+  monalias_signing_key:
+    file: ./secrets/monalias_signing_key
+
+volumes:
+  monalias_data:
+  wallets:

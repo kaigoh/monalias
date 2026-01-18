@@ -1,0 +1,63 @@
+scalar DateTime
+
+enum AliasMode {
+  STATIC_ADDRESS
+  DYNAMIC_SUBADDRESS
+}
+
+enum InstanceStatus {
+  OK
+  DEGRADED
+  LOCKED
+}
+
+type InstanceInfo {
+  domain: String!
+  homeserver: String!
+  signingKeyId: String!
+  signingPubkey: String!
+  status: InstanceStatus!
+  statusReason: String
+  lastIdentityCheckAt: DateTime
+}
+
+type Account {
+  id: ID!
+  handle: String!
+  walletName: String
+  createdAt: DateTime!
+  aliases: [Alias!]!
+}
+
+type Alias {
+  id: ID!
+  fullAcct: String!
+  aliasLabel: String!
+  mode: AliasMode!
+  staticAddress: String
+  nextSubaddrIdx: Int
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Query {
+  instanceInfo: InstanceInfo!
+  accounts: [Account!]!
+  account(id: ID!): Account
+}
+
+type Mutation {
+  setInstanceConfig(domain: String!, homeserver: String!): InstanceInfo!
+
+  createAccount(handle: String!, walletName: String): Account!
+  deleteAccount(id: ID!): Boolean!
+
+  createAlias(accountId: ID!, aliasLabel: String!, mode: AliasMode!): Alias!
+  setAliasStaticAddress(aliasId: ID!, address: String!): Alias!
+  setAliasMode(aliasId: ID!, mode: AliasMode!): Alias!
+  setAliasNextIndex(aliasId: ID!, nextSubaddrIdx: Int!): Alias!
+
+  lockInstance(reason: String!): InstanceInfo!
+  unlockInstance: InstanceInfo!
+  runIdentityCheck: InstanceInfo!
+}
