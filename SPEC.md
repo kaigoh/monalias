@@ -81,7 +81,7 @@ Body:
   "address": "89MoneroAddressOrSubaddress...",
   "network": "mainnet",
   "meta": {
-    "display_name": "Kai",
+    "display_name": "Bob",
     "alias": "rent",
     "resolved_kind": "NORMAL"
   },
