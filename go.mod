@@ -5,6 +5,7 @@ go 1.24.3
 require (
 	github.com/graph-gophers/graphql-go v1.8.0
 	github.com/joho/godotenv v1.5.1
+	gitlab.com/moneropay/go-monero v1.1.2
 	golang.org/x/time v0.14.0
 	modernc.org/sqlite v1.44.2
 )
