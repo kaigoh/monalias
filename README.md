@@ -36,6 +36,11 @@ ssh -L 8080:127.0.0.1:8080 user@server
 - `POST /_monalias/resolve`
 - `GET /healthz`
 
+## Protocol docs
+
+- `SPEC.md` for the public lookup protocol
+- `IMPLEMENTATION.md` for repo-specific behavior
+
 ## Admin API
 
 - `POST /graphql` on the admin listener (default `127.0.0.1:8080`)
