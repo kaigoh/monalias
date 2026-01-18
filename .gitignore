@@ -1,1 +1,16 @@
-/monalias_spec_v1_codex.md
+/.env
+/secrets/
+/monalias.db
+/internal/ui/dist/
+/ui/build/
+/ui/.dart_tool/
+/ui/.flutter-plugins
+/ui/.flutter-plugins-dependencies
+/ui/.packages
+/ui/.metadata
+/ui/.idea/
+/ui/.vscode/
+/vendor/
+/bin/
+/dist/
+/tmp/

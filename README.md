@@ -1,35 +1,30 @@
 # Monalias v1
 
+![Monalias logo](monalias.png)
+
 Monalias v1 is a small, self-hosted service that resolves DNS-style aliases into Monero addresses and signs the responses. It exposes a public resolver and a private admin API with a bundled admin UI.
 
 ## Quick start
 
-1) Create a `.env` file from the example:
+1. Create a `.env` file from the example:
 
 ```bash
 cp .env.example .env
 ```
 
-2) Generate an Ed25519 signing key and store the base64-encoded bytes:
+2. Generate a 32-byte seed and store it as base64:
 
 ```bash
-python - <<'PY'
-import base64
-import os
-seed = os.urandom(32)
-print(base64.b64encode(seed).decode())
-PY
+openssl rand -base64 32 > ./secrets/monalias_signing_key
 ```
 
-Save that output to `./secrets/monalias_signing_key`.
-
-3) Build and run:
+3. Build and run:
 
 ```bash
 docker compose up --build
 ```
 
-4) Reach the admin API via SSH tunnel (do not expose port 8080 directly):
+4. Reach the admin API via SSH tunnel (do not expose port 8080 directly):
 
 ```bash
 ssh -L 8080:127.0.0.1:8080 user@server
@@ -82,10 +77,6 @@ SQLite schema lives in `internal/db/schema.sql`. The service creates tables on b
 ## Wallet RPC
 
 Dynamic aliases require `monero-wallet-rpc` with view-only wallets. The service will `open_wallet` and derive a subaddress index during alias creation, and resolve using that stored index.
-
-## GraphQL tooling
-
-This repository includes `gqlgen.yml` and `sqlc.yaml` for future codegen. The current implementation ships a lightweight GraphQL server and a hand-written DB layer so the repo can build without generating code.
 
 ## Development
 
